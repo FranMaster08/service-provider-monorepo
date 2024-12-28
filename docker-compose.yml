@@ -1,0 +1,31 @@
+services:
+  backend:
+    container_name: service-provider-backend
+    build:
+      context: ./service-provider
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Puerto expuesto del backend
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=your_jwt_secret
+      - SAML_ENTRYPOINT=https://idp.example.com/sso
+      - SAML_ISSUER=http://localhost:3001
+      - SAML_CERT=your_idp_certificate
+    volumes:
+      - ./service-provider:/app
+      - /app/node_modules # Evita sobrescribir los node_modules en el contenedor
+    depends_on:
+      - frontend
+
+  frontend:
+    container_name: service-provider-frontend
+    build:
+      context: ./service-provider-front
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000" # Mapea el puerto 3000 interno al 3001 local
+    environment:
+      - NODE_ENV=production
+      - BACKEND_URL=http://backend:3001 # URL del backend para el frontend
+    # No montamos volúmenes para evitar sobrescribir el contenedor en producción

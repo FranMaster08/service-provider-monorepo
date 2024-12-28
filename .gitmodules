@@ -1,0 +1,6 @@
+[submodule "service-provider"]
+	path = service-provider
+	url = https://github.com/FranMaster08/service-provider-back.git
+[submodule "service-provider-front"]
+	path = service-provider-front
+	url = https://github.com/FranMaster08/service-provider-front.git
